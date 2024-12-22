@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-
 interface Student {
   name: string;
   email: string;
@@ -11,7 +10,6 @@ interface Student {
   reactScore: number;
   placementStatus: string;
 }
-
 const StudentDetails: React.FC = () => {
   const navigate = useNavigate();
   const [students, setStudents] = useState<Student[]>([]);
@@ -25,14 +23,12 @@ const StudentDetails: React.FC = () => {
     reactScore: 0,
     placementStatus: "None",
   });
-
   useEffect(() => {
     const savedStudents = localStorage.getItem("students");
     if (savedStudents) {
       setStudents(JSON.parse(savedStudents));
     }
   }, []);
-
   useEffect(() => {
     localStorage.setItem("students", JSON.stringify(students));
   }, [students]);
@@ -44,11 +40,12 @@ const StudentDetails: React.FC = () => {
     setNewStudent((prev) => ({
       ...prev,
       [name]: ["dsaScore", "webDevScore", "reactScore"].includes(name)
-        ? Number(value)
+        ? value === "" 
+          ? "" 
+          : Number(value) 
         : value,
     }));
   };
-
   const addStudent = (e: React.FormEvent) => {
     e.preventDefault();
     setStudents([...students, newStudent]);
@@ -63,12 +60,11 @@ const StudentDetails: React.FC = () => {
       placementStatus: "None",
     });
   };
-
   return (
     <div
       className="p-6"
       style={{
-        background: "radial-gradient(circle, #1b2735, #090a0f)", 
+        background: "radial-gradient(circle, #1b2735, #090a0f)",
         color: "#fff",
       }}
     >
@@ -91,7 +87,7 @@ const StudentDetails: React.FC = () => {
             placeholder="Enter student name"
             value={newStudent.name}
             onChange={handleChange}
-            className="w-full border p-2 rounded mb-2 text-black" 
+            className="w-full border p-2 rounded mb-2 text-black"
             required
           />
           <label className="block text-sm mb-1">Email</label>
@@ -101,7 +97,7 @@ const StudentDetails: React.FC = () => {
             placeholder="Enter student email"
             value={newStudent.email}
             onChange={handleChange}
-            className="w-full border p-2 rounded mb-2 text-black" 
+            className="w-full border p-2 rounded mb-2 text-black"
             required
           />
           <label className="block text-sm mb-1">Batch</label>
@@ -111,7 +107,7 @@ const StudentDetails: React.FC = () => {
             placeholder="Enter batch"
             value={newStudent.batch}
             onChange={handleChange}
-            className="w-full border p-2 rounded mb-2 text-black" 
+            className="w-full border p-2 rounded mb-2 text-black"
             required
           />
           <label className="block text-sm mb-1">College</label>
@@ -121,34 +117,34 @@ const StudentDetails: React.FC = () => {
             placeholder="Enter college"
             value={newStudent.college}
             onChange={handleChange}
-            className="w-full border p-2 rounded mb-2 text-black" 
+            className="w-full border p-2 rounded mb-2 text-black"
             required
           />
           <label className="block text-sm mb-1">DSA Score</label>
           <input
             type="number"
             name="dsaScore"
-            value={newStudent.dsaScore}
+            value={newStudent.dsaScore === 0 ? "" : newStudent.dsaScore} 
             onChange={handleChange}
-            className="w-full border p-2 rounded mb-2 text-black" 
+            className="w-full border p-2 rounded mb-2 text-black"
             required
           />
           <label className="block text-sm mb-1">Web Development Score</label>
           <input
             type="number"
             name="webDevScore"
-            value={newStudent.webDevScore}
+            value={newStudent.webDevScore === 0 ? "" : newStudent.webDevScore} 
             onChange={handleChange}
-            className="w-full border p-2 rounded mb-2 text-black" 
+            className="w-full border p-2 rounded mb-2 text-black"
             required
           />
           <label className="block text-sm mb-1">React Score</label>
           <input
             type="number"
             name="reactScore"
-            value={newStudent.reactScore}
+            value={newStudent.reactScore === 0 ? "" : newStudent.reactScore}
             onChange={handleChange}
-            className="w-full border p-2 rounded mb-2 text-black" 
+            className="w-full border p-2 rounded mb-2 text-black"
             required
           />
           <label className="block text-sm mb-1">Placement Status</label>
@@ -156,7 +152,7 @@ const StudentDetails: React.FC = () => {
             name="placementStatus"
             value={newStudent.placementStatus}
             onChange={handleChange}
-            className="w-full border p-2 rounded mb-4 text-black" 
+            className="w-full border p-2 rounded mb-4 text-black"
           >
             <option value="None">None</option>
             <option value="Placed">Placed</option>
@@ -204,5 +200,4 @@ const StudentDetails: React.FC = () => {
     </div>
   );
 };
-
 export default StudentDetails;
